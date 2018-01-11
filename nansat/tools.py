@@ -109,6 +109,11 @@ except:
     warnings.warn('Cannot generate and register the OBPG colormap!')
 
 
+class NansatMetadaError(Exception):
+    '''Error for incorrect metadata '''
+    pass
+
+
 class OptionError(Exception):
     '''Error for improper options (arguments) '''
     pass
@@ -128,9 +133,11 @@ class NansatReadError(Exception):
     '''Exception if a file cannot be read with Nansat'''
     pass
 
+
 class GeolocationError(Exception):
     '''Exception if geolocation is wrong (e.g., all lat/lon values are 0)'''
     pass
+
 
 class WrongMapperError(Exception):
     '''Error for handling data that does not fit a given mapper'''

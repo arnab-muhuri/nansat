@@ -2,8 +2,7 @@
 # Name:         test_nansat.py
 # Purpose:      Test the Nansat class
 #
-# Author:       Morten Wergeland Hansen, Asuka Yamakawa
-# Modified:     Morten Wergeland Hansen, Aleksander Vines
+# Author:       Morten Wergeland Hansen, Asuka Yamakawa, Anton Korosov, Aleksander Vines
 #
 # Created:      18.06.2014
 # Last modified:30.09.2015 14:00
@@ -66,6 +65,9 @@ class NansatTest(unittest.TestCase):
 
         self.assertEqual(type(n), Nansat)
         self.assertEqual(n.shape(), (500, 500))
+
+    #def test_validate_correct_metadata(self):
+    #    n = Nansat(self.test_file_corr_metadata, validate_metadata=True)
 
     def test_init_domain_array(self):
         d = Domain(4326, "-te 25 70 35 72 -ts 500 500")

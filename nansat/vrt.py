@@ -1739,3 +1739,18 @@ class VRT(object):
 
         # Update dataset
         self.dataset.SetGCPs(dstGCPs, dstSRS.wkt)
+
+    def validate_metadata(self):
+        ''' Validate standard metadata keys and values
+
+        Check platform, instrument, time_coverage_start, time_coverage_end, and some
+        other metadata items using pythesint and datetime.
+        
+        Returns
+        -------
+            status : int
+                0 - all required metadata keys are presents and values are standard
+                1 - some metadata keys are missing or some value are not standard
+        '''
+        raise Exception
+        

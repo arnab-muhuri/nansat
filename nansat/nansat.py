@@ -41,7 +41,7 @@ from nansat.domain import Domain
 from nansat.figure import Figure
 from nansat.vrt import VRT
 from nansat.tools import add_logger, gdal
-from nansat.tools import OptionError, WrongMapperError, NansatReadError, GDALError
+from nansat.tools import OptionError, WrongMapperError, NansatReadError, GDALError, NansatMetadaError
 from nansat.tools import parse_time, test_openable
 from nansat.node import Node
 from nansat.pointbrowser import PointBrowser
@@ -79,8 +79,8 @@ class Nansat(Domain):
     Nansat uses instance of Figure (collection of methods for visualization)
     '''
 
-    def __init__(self, fileName='', mapperName='', domain=None,
-                 array=None, parameters=None, logLevel=30, **kwargs):
+    def __init__(self, fileName='', mapperName='', domain=None, array=None, parameters=None,
+                 logLevel=30, validate_metadata=False, **kwargs):
         '''Create Nansat object
 
         if <fileName> is given:
@@ -122,6 +122,11 @@ class Nansat(Domain):
             logger for output debugging info
         self.name : string
             name of object (for writing KML)
+
+        Raises
+        ------
+            NansatMetadataError : if validate_metadata is true and some metadata
+            is not compliant with standards
 
         Examples
         --------
@@ -174,6 +179,10 @@ class Nansat(Domain):
                 # add a band from array
                 self.add_band(array=array, parameters=parameters)
 
+        if validate_metadata:
+            if vrt.validate_metadata() != 0:
+                raise NansatMetadataError
+            
         self.logger.debug('Object created from %s ' % self.fileName)
 
     def __getitem__(self, bandID):
@@ -1738,12 +1747,6 @@ class Nansat(Domain):
                     'consider writing a mapper' % self.fileName)
 
         return tmpVRT
-
-    def _get_pixelValue(self, val, defVal):
-        if val == '':
-            return defVal
-        else:
-            return val
 
     def _get_band_number(self, bandID):
         '''Return absolute band number
